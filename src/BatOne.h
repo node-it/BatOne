@@ -29,7 +29,7 @@ enum batOneStat_t {
 	BATONE_STAT_OK
 };
 
-class BatOne
+class BatOneClass
 {
   public:
 	void begin();
@@ -40,5 +40,8 @@ class BatOne
   private:
 	uint8_t currentState;
 };
+
+// Create on instance of the library
+extern BatOneClass BatOne;
 
 #endif // __GUARD_BATONE_H__

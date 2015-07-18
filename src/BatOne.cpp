@@ -26,7 +26,7 @@
 #define PCA9536_REG_POL       2
 #define PCA9536_REG_CTR       3
 
-void BatOne::begin()
+void BatOneClass::begin()
 {
 	currentState = 0;
 
@@ -44,13 +44,13 @@ void BatOne::begin()
 	Wire.endTransmission();
 }
 
-void BatOne::begin(uint8_t _sda, uint8_t _scl)
+void BatOneClass::begin(uint8_t _sda, uint8_t _scl)
 {
 	Wire.begin(_sda, _scl);
 	begin();
 }
 
-uint32_t BatOne::readBatteryStatus(uint32_t *result)
+uint32_t BatOneClass::readBatteryStatus(uint32_t *result)
 {
 	uint32_t stat = BATONE_STAT_OK;
 
@@ -67,7 +67,7 @@ uint32_t BatOne::readBatteryStatus(uint32_t *result)
 }
 
 
-uint32_t BatOne::enableHighChargeCurrent(void)
+uint32_t BatOneClass::enableHighChargeCurrent(void)
 {
 	uint32_t result = BATONE_STAT_OK;
 
@@ -81,7 +81,7 @@ uint32_t BatOne::enableHighChargeCurrent(void)
 }
 
 
-uint32_t BatOne::disableHighChargeCurrent(void)
+uint32_t BatOneClass::disableHighChargeCurrent(void)
 {
 	uint32_t result = BATONE_STAT_OK;
 
@@ -94,3 +94,6 @@ uint32_t BatOne::disableHighChargeCurrent(void)
 	return result;
 }
 
+BatOneClass BatOne;
+
+// EOF
