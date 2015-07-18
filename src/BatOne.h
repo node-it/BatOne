@@ -29,9 +29,15 @@ enum batOneStat_t {
 	BATONE_STAT_OK
 };
 
+#define	BATONE_PG_MASK			0x01
+#define BATONE_CHARGE_COMPLETE_MASK	0x02
+#define BATONE_CHARGING_MASK		0x04
+#define BATONE_HIGH_CURRENT_MASK	0x08
+
 class BatOneClass
 {
   public:
+	BatOneClass();
 	void begin();
 	void begin(uint8_t _sda, uint8_t _scl);
 	uint32_t readBatteryStatus(uint32_t *result);
@@ -41,7 +47,6 @@ class BatOneClass
 	uint8_t currentState;
 };
 
-// Create on instance of the library
 extern BatOneClass BatOne;
 
 #endif // __GUARD_BATONE_H__

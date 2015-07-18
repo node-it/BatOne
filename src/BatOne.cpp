@@ -26,6 +26,8 @@
 #define PCA9536_REG_POL       2
 #define PCA9536_REG_CTR       3
 
+BatOneClass::BatOneClass() { }
+
 void BatOneClass::begin()
 {
 	currentState = 0;
@@ -40,6 +42,14 @@ void BatOneClass::begin()
 	// Bits 0-2 are inputs, bit 2 is output
 	Wire.beginTransmission(PCA9536_BASE_ADDRESS);
 	Wire.write(PCA9536_REG_CTR);
+	Wire.write(0x07);
+	Wire.endTransmission();
+	
+	// And we need to invert the status bits since
+	// are pulled by open drain drivers in the
+	// charger device.
+	Wire.beginTransmission(PCA9536_BASE_ADDRESS);
+	Wire.write(PCA9536_REG_POL);
 	Wire.write(0x07);
 	Wire.endTransmission();
 }
@@ -94,6 +104,7 @@ uint32_t BatOneClass::disableHighChargeCurrent(void)
 	return result;
 }
 
+// Create an instance of the library
 BatOneClass BatOne;
 
 // EOF
