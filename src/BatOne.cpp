@@ -18,6 +18,7 @@
  * this stuff is worth it, you can buy me a beer in return - Pontus Oldberg
  * ----------------------------------------------------------------------------
  */
+#include <Arduino.h>
 #include "BatOne.h"
 
 #define PCA9536_BASE_ADDRESS  (0x41)
@@ -25,6 +26,8 @@
 #define PCA9536_REG_OUT       1
 #define PCA9536_REG_POL       2
 #define PCA9536_REG_CTR       3
+
+static const float voltsPerBit = 1.0 / 1024.0;
 
 BatOneClass::BatOneClass() { }
 
@@ -44,7 +47,7 @@ void BatOneClass::begin()
 	Wire.write(PCA9536_REG_CTR);
 	Wire.write(0x07);
 	Wire.endTransmission();
-	
+
 	// And we need to invert the status bits since
 	// are pulled by open drain drivers in the
 	// charger device.
@@ -76,6 +79,10 @@ uint32_t BatOneClass::readBatteryStatus(uint32_t *result)
 	return stat;
 }
 
+float BatOneClass::readBatteryVoltage(float divider)
+{
+  return voltsPerBit * analogRead(A0) / divider;
+}
 
 uint32_t BatOneClass::enableHighChargeCurrent(void)
 {

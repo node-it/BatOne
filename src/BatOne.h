@@ -21,7 +21,6 @@
 
 #ifndef __GUARD_BATONE_H__
 #define __GUARD_BATONE_H__
-#define __GUARD_BATONE_h__
 
 #include <Wire.h>
 
@@ -29,10 +28,13 @@ enum batOneStat_t {
 	BATONE_STAT_OK
 };
 
-#define	BATONE_PG_MASK			0x01
-#define BATONE_CHARGE_COMPLETE_MASK	0x02
-#define BATONE_CHARGING_MASK		0x04
-#define BATONE_HIGH_CURRENT_MASK	0x08
+#define	BATONE_PG_MASK              0x01
+#define BATONE_CHARGE_COMPLETE_MASK 0x02
+#define BATONE_CHARGING_MASK        0x04
+#define BATONE_HIGH_CURRENT_MASK    0x08
+// The following formula corresponds to the resistor network between the
+// battery and the analog input of the ESP8266.
+#define DIVIDER_NETWORK             (10000.0 / (10000.0 + 39000.0))
 
 class BatOneClass
 {
@@ -41,6 +43,7 @@ class BatOneClass
 	void begin();
 	void begin(uint8_t _sda, uint8_t _scl);
 	uint32_t readBatteryStatus(uint32_t *result);
+	float readBatteryVoltage(float divider = DIVIDER_NETWORK);
 	uint32_t enableHighChargeCurrent(void);
 	uint32_t disableHighChargeCurrent(void);
   private:
